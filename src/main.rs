@@ -11,15 +11,36 @@ fn read_version(txn_hx: &str)-> u32{
     u32::from_le_bytes(buff)
 
 }
+fn take_ownership_sum(values: Vec<i32>)-> i32{
+    let mut sum = 0;
+
+    for v in values {
+         sum += v;
+    }
+    sum
+}
 
 fn main() {
     let version =  read_version("0100000001abcdef");
+    let vec_num = [1,23,45,5,6,13,26,78,235,3456,76].to_vec();
+
+    let sum = take_ownership_sum(vec_num);
+
+    println!("Sum = {}", sum);
     println!("Version {}", version);
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+   #[test]
+   fn sum_3_len_vec(){
+     let arr = [1,2,3].to_vec();
+     let sum = take_ownership_sum(arr);
+
+     assert_eq!(sum, 6);
+   }
 
     #[test]
     fn reads_version_1() {
