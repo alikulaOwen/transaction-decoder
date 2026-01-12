@@ -1,11 +1,14 @@
-
+use std::io::Read;
 
 fn read_version(txn_hx: &str)-> u32{
 
     let txn_bytes =  hex::decode(txn_hx).unwrap();
-    let version_bytes:[u8; 4] = txn_bytes[0..4].try_into().expect("Isssue slicing");
+    let mut byte_slice  = txn_bytes.as_slice();
+    let mut buff = [0; 4];
 
-    u32::from_le_bytes(version_bytes)
+    byte_slice.read(&mut buff).unwrap();
+
+    u32::from_le_bytes(buff)
 
 }
 
